@@ -39,11 +39,28 @@ def registry_cache_path(cfg: RegistryConfig) -> Path:
 
 
 def load_cached_registry(cfg: RegistryConfig) -> dict[str, Any] | None:
-    """Load registry from local cache if available."""
+    """Load registry from local cache if available.
+
+    Returns None if cache doesn't exist or is corrupted.
+    Corrupted cache files are automatically deleted for self-healing.
+    """
     p = registry_cache_path(cfg)
-    if p.exists():
-        return json.loads(p.read_text(encoding="utf-8"))
-    return None
+    if not p.exists():
+        return None
+
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+        # Validate basic structure
+        if not isinstance(data, dict) or "tools" not in data:
+            raise ValueError("Invalid registry structure")
+        return data
+    except (json.JSONDecodeError, ValueError, OSError) as e:
+        # Corrupted cache - delete and return None for self-healing
+        try:
+            p.unlink()
+        except OSError:
+            pass
+        return None
 
 
 def save_cached_registry(cfg: RegistryConfig, data: dict[str, Any]) -> None:
@@ -71,22 +88,45 @@ def fetch_registry(cfg: RegistryConfig) -> dict[str, Any]:
     return r.json()
 
 
+class RegistryFetchError(Exception):
+    """Error fetching registry from remote."""
+
+    def __init__(self, message: str, cached_available: bool = False):
+        super().__init__(message)
+        self.cached_available = cached_available
+
+
 def get_registry(
     cfg: RegistryConfig | None = None,
     force_refresh: bool = False,
 ) -> dict[str, Any]:
-    """Get registry, using cache if available unless force_refresh is True."""
+    """Get registry, using cache if available unless force_refresh is True.
+
+    On network failure:
+    - If cache exists, returns cached data (graceful degradation)
+    - If no cache, raises RegistryFetchError with helpful message
+    """
     if cfg is None:
         cfg = RegistryConfig()
 
-    if not force_refresh:
-        cached = load_cached_registry(cfg)
-        if cached is not None:
-            return cached
+    cached = load_cached_registry(cfg)
 
-    data = fetch_registry(cfg)
-    save_cached_registry(cfg, data)
-    return data
+    if not force_refresh and cached is not None:
+        return cached
+
+    try:
+        data = fetch_registry(cfg)
+        save_cached_registry(cfg, data)
+        return data
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
+        if cached is not None:
+            # Graceful degradation - return stale cache
+            return cached
+        raise RegistryFetchError(
+            f"Failed to fetch registry: {e}\n"
+            f"No cached registry available. Check your network connection.",
+            cached_available=False,
+        ) from e
 
 
 def get_tool(tool_id: str, cfg: RegistryConfig | None = None) -> dict[str, Any] | None:

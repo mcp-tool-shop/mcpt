@@ -2,6 +2,7 @@
 
 from .client import (
     RegistryConfig,
+    RegistryFetchError,
     RegistryStatus,
     fetch_registry,
     get_registry,
@@ -14,6 +15,7 @@ from .client import (
 
 __all__ = [
     "RegistryConfig",
+    "RegistryFetchError",
     "RegistryStatus",
     "fetch_registry",
     "get_registry",

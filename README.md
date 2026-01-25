@@ -13,7 +13,7 @@ CLI for discovering and running MCP Tool Shop tools.
 - **CLI** → how you consume them (this repo)
 - **Examples** ([mcp-examples](https://github.com/mcp-tool-shop/mcp-examples)) → how you learn the model
 - **Tags** (v0.1.0, v0.2.0) → stability, reproducibility
-- **main** → development only, not for production
+- **main** → development only; may change without notice; builds may break
 - **Tools default to least privilege** → no network, no writes, no side effects
 - **Capability is always explicit and opt-in** → you decide when to enable
 
@@ -115,6 +115,15 @@ tools:
 run:
   safe_by_default: true
 ```
+
+## What Does Pinning Mean?
+
+When you set `registry.ref: v0.1.0` in `mcp.yaml`, you're pinning the **registry metadata**, not tool code.
+
+- **Registry ref** → which version of the tool list you read
+- **Tool ref** → pin individual tools with `mcpt add tool-id --ref v1.0.0`
+
+Both matter for reproducibility. Pin the registry for consistent tool discovery, pin tools for consistent behavior.
 
 ## Development
 

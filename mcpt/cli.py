@@ -28,6 +28,33 @@ app = typer.Typer(
     help="CLI for discovering and running MCP Tool Shop tools.",
     no_args_is_help=True,
 )
+
+
+def fuzzy_match_tools(query: str, limit: int = 5) -> list[dict]:
+    """Find tools with similar names using simple fuzzy matching."""
+    from difflib import SequenceMatcher
+
+    registry = get_registry()
+    tools = registry.get("tools", [])
+    query_lower = query.lower()
+
+    scored = []
+    for tool in tools:
+        tool_id = tool.get("id", "")
+        # Score based on: substring match, sequence similarity, starts-with
+        score = 0
+        if query_lower in tool_id.lower():
+            score += 0.5
+        if tool_id.lower().startswith(query_lower):
+            score += 0.3
+        score += SequenceMatcher(None, query_lower, tool_id.lower()).ratio() * 0.5
+        if score > 0.2:
+            scored.append((score, tool))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [t for _, t in scored[:limit]]
+
+
 console = Console()
 
 
@@ -222,10 +249,21 @@ def add(
     tool = get_tool(tool_id)
     if tool is None:
         console.print(f"[red]Tool not found in registry:[/red] {tool_id}")
+        # Show fuzzy matches
+        similar = fuzzy_match_tools(tool_id)
+        if similar:
+            console.print("[dim]Did you mean:[/dim]")
+            for t in similar:
+                console.print(f"  [cyan]{t.get('id')}[/cyan] - {t.get('name', '')}")
+        console.print("[dim]Stale registry? Try: mcpt list --refresh[/dim]")
         raise typer.Exit(1)
 
     if workspace_add_tool(path, tool_id, ref):
         console.print(f"[green]Added[/green] {tool_id} to {path}")
+        # Show capability hints if tool has side effects
+        defaults = tool.get("defaults", {})
+        if not defaults.get("safe_run", True):
+            console.print("[dim]Note: This tool has side effects. Check its documentation for capability env vars.[/dim]")
     else:
         console.print(f"[yellow]{tool_id} already in workspace.[/yellow]")
 
@@ -396,15 +434,42 @@ def doctor() -> None:
     # Check for mcp.yaml in current directory
     console.print()
     config_path = Path.cwd() / MCP_YAML_FILENAME
-    if config_path.exists():
+    workspace_exists = config_path.exists()
+    workspace_tools = 0
+    workspace_ref = None
+
+    if workspace_exists:
         try:
             config = read_config(config_path)
-            tools_count = len(config.get("tools", []))
-            console.print(f"[green]Workspace OK[/green] - {tools_count} tools configured")
+            workspace_tools = len(config.get("tools", []))
+            workspace_ref = config.get("registry", {}).get("ref")
+            console.print(f"[green]Workspace OK[/green] - {workspace_tools} tools configured")
         except Exception as e:
             console.print(f"[yellow]Workspace config error:[/yellow] {e}")
     else:
         console.print(f"[dim]No {MCP_YAML_FILENAME} in current directory[/dim]")
+
+    # Next steps (max 3 bullets based on current state)
+    console.print()
+    console.print("[bold]Next Steps[/bold]")
+    next_steps = []
+
+    if not workspace_exists:
+        next_steps.append("Run [cyan]mcpt init[/cyan] to create a workspace")
+    elif workspace_tools == 0:
+        next_steps.append("Run [cyan]mcpt add <tool-id>[/cyan] to add a tool")
+
+    if workspace_ref == "main":
+        next_steps.append("Edit mcp.yaml to pin [cyan]ref: v0.1.0[/cyan] for reproducibility")
+
+    if not status.cache_exists:
+        next_steps.append("Run [cyan]mcpt list --refresh[/cyan] to fetch the registry")
+
+    if not next_steps:
+        next_steps.append("[green]All good![/green] Run [cyan]mcpt list[/cyan] to explore tools")
+
+    for step in next_steps[:3]:
+        console.print(f"  • {step}")
 
     console.print()
     console.print("[green]Doctor complete.[/green]")
