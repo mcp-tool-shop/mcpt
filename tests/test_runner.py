@@ -16,7 +16,7 @@ class TestGenerateRunPlan:
         tool = {
             "id": "file-compass",
             "name": "File Compass",
-            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop/file-compass.git"},
+            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop-org/file-compass.git"},
         }
         plan = generate_run_plan(tool)
         
@@ -30,7 +30,7 @@ class TestGenerateRunPlan:
         tool = {
             "id": "file-compass",
             "name": "File Compass",
-            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop/file-compass.git"},
+            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop-org/file-compass.git"},
         }
         args = ["--pattern", "*.py", "--limit", "10"]
         plan = generate_run_plan(tool, args)
@@ -44,7 +44,7 @@ class TestGenerateRunPlan:
             "name": "File Compass",
             "install": {
                 "type": "git",
-                "url": "https://github.com/mcp-tool-shop/file-compass.git",
+                "url": "https://github.com/mcp-tool-shop-org/file-compass.git",
                 "default_ref": "v1.0.0",
             },
         }
@@ -57,7 +57,7 @@ class TestGenerateRunPlan:
         tool = {
             "id": "file-compass",
             "name": "File Compass",
-            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop/file-compass.git"},
+            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop-org/file-compass.git"},
         }
         plan = generate_run_plan(tool)
         
@@ -68,7 +68,7 @@ class TestGenerateRunPlan:
         tool = {
             "id": "file-compass",
             "name": "File Compass",
-            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop/file-compass.git"},
+            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop-org/file-compass.git"},
             "defaults": {"safe_run": False},
         }
         plan = generate_run_plan(tool)
@@ -80,7 +80,7 @@ class TestGenerateRunPlan:
         tool = {
             "id": "file-compass",
             "name": "File Compass",
-            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop/file-compass.git"},
+            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop-org/file-compass.git"},
         }
         plan = generate_run_plan(tool)
         
@@ -107,7 +107,7 @@ class TestStubRun:
         plan = {
             "tool_id": "file-compass",
             "tool_name": "File Compass",
-            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop/file-compass.git", "ref": "main"},
+            "install": {"type": "git", "url": "https://github.com/mcp-tool-shop-org/file-compass.git", "ref": "main"},
             "args": [],
             "safe_run": True,
         }

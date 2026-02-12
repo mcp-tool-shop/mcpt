@@ -9,9 +9,9 @@ CLI for discovering and running MCP Tool Shop tools.
 
 ## How MCP Tool Shop Fits Together
 
-- **Registry** ([mcp-tool-registry](https://github.com/mcp-tool-shop/mcp-tool-registry)) → what tools exist
+- **Registry** ([mcp-tool-registry](https://github.com/mcp-tool-shop-org/mcp-tool-registry)) → what tools exist
 - **CLI** → how you consume them (this repo)
-- **Examples** ([mcp-examples](https://github.com/mcp-tool-shop/mcp-examples)) → how you learn the model
+- **Examples** ([mcp-examples](https://github.com/mcp-tool-shop-org/mcp-examples)) → how you learn the model
 - **Tags** (v0.1.0, v0.2.0) → stability, reproducibility
 - **main** → development only; may change without notice; builds may break
 - **Tools default to least privilege** → no network, no writes, no side effects
@@ -104,7 +104,7 @@ schema_version: "0.1"
 name: "my-mcp-workspace"
 
 registry:
-  source: "https://github.com/mcp-tool-shop/mcp-tool-registry"
+  source: "https://github.com/mcp-tool-shop-org/mcp-tool-registry"
   ref: "v0.1.0"
 
 tools:

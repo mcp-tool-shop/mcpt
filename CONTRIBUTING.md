@@ -5,7 +5,7 @@ MCPT is the command-line interface for discovering and running MCP Tool Shop too
 ## Development Setup
 
 ```bash
-git clone https://github.com/mcp-tool-shop/mcpt.git
+git clone https://github.com/mcp-tool-shop-org/mcpt.git
 cd mcpt
 pip install -e ".[dev]"
 pytest
@@ -17,7 +17,7 @@ pytest
 
 If you find a bug or have a feature request:
 
-1. Check existing [issues](https://github.com/mcp-tool-shop/mcpt/issues)
+1. Check existing [issues](https://github.com/mcp-tool-shop-org/mcpt/issues)
 2. If not found, create a new issue with:
    - Clear description of the problem or feature
    - Steps to reproduce (for bugs)
