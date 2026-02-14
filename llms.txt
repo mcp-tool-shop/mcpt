@@ -1,0 +1,40 @@
+# MCPT CLI
+
+> CLI for discovering, installing, and running MCP Tool Shop tools.
+
+## Purpose
+MCPT is the package manager for the MCP Tool Shop ecosystem. It discovers tools from a central registry, manages workspace configurations via `mcp.yaml`, and runs tools with safe-by-default execution (no network, no writes, no side effects unless opted in).
+
+## Quickstart
+```bash
+brew tap mcp-tool-shop-org/mcp-tools && brew install mcpt
+# or: pip install -e .
+mcpt list --refresh
+mcpt init
+mcpt add file-compass
+mcpt install file-compass
+mcpt run file-compass
+```
+
+## Key Commands
+- `mcpt list [--refresh] [--json]` -- list available tools from registry
+- `mcpt info <tool-id>` -- show tool details
+- `mcpt search <query>` -- find tools by keyword
+- `mcpt init [path]` -- create `mcp.yaml` workspace config
+- `mcpt add <tool-id> [--ref <version>]` -- add tool to workspace
+- `mcpt remove <tool-id>` -- remove tool from workspace
+- `mcpt install <tool-id> [--ref <ref>] [--venv <path>]` -- install via pip
+- `mcpt run <tool-id> [--real]` -- run tool (stub mode by default, `--real` to execute)
+- `mcpt doctor` -- check configuration health
+
+## Constraints
+- `mcpt` (not `mcp`) to avoid conflict with Anthropic's MCP SDK on PyPI
+- Workspace config files are `mcp.yaml` (not `mcpt.yaml`) for ecosystem compatibility
+- `registry.ref` pins the tool list version, not tool code; pin tools separately with `--ref`
+- `mcpt run` defaults to stub/dry-run mode; pass `--real` to actually execute
+- Tools default to least privilege; capabilities are opt-in
+
+## Links
+- Repo: https://github.com/mcp-tool-shop-org/mcpt-edit
+- Registry: https://github.com/mcp-tool-shop-org/mcp-tool-registry
+- Examples: https://github.com/mcp-tool-shop-org/mcp-examples

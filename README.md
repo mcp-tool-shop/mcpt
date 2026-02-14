@@ -19,6 +19,15 @@ CLI for discovering and running MCP Tool Shop tools.
 
 ## Installation
 
+### Via Homebrew (macOS/Linux) - Recommended
+
+```bash
+brew tap mcp-tool-shop-org/mcp-tools
+brew install mcpt
+```
+
+### Via Local Development
+
 ```bash
 pip install -e .
 ```
