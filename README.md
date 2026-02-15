@@ -1,15 +1,17 @@
 <div align="center">
-  <img src="logo.jpg" alt="MCP Tool Registry" width="500" />
+  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/mcpt/main/logo.jpg" alt="MCP Select" width="500" />
 </div>
 
-# MCPT CLI
+# MCP Select
 
 CLI for discovering and running MCP Tool Shop tools.
 
-> **Why "mcpt"?** The official Anthropic `mcp` package exists on PyPI for the
-> Model Context Protocol SDK. We use `mcpt` (MCP Tools) to avoid conflicts.
-> The command is `mcpt`, but workspace configs remain `mcp.yaml` for ecosystem
-> compatibility.
+> **Install**: `pip install mcp-select` | **Command**: `mcpt`
+>
+> The official Anthropic `mcp` package exists on PyPI for the Model Context
+> Protocol SDK. We use `mcp-select` as the package name to avoid conflicts.
+> The CLI command is `mcpt`, and workspace configs use `mcp.yaml` for
+> ecosystem compatibility.
 
 ## Ecosystem & Backing Registry
 
@@ -35,7 +37,7 @@ CLI for discovering and running MCP Tool Shop tools.
 ## Installation
 
 ```bash
-pip install -e .
+pip install mcp-select
 ```
 
 ## Getting Started

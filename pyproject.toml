@@ -1,6 +1,6 @@
 [project]
 name = "mcp-select"
-version = "1.0.2"
+version = "1.0.3"
 description = "CLI for discovering and running MCP Tool Shop tools"
 readme = "README.md"
 license = "MIT"
