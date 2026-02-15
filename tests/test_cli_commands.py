@@ -237,8 +237,6 @@ class TestRemoveCommand:
     def test_remove_tool_from_workspace(self, mock_get_tool):
         """Test remove command removes tool from mcp.yaml."""
         mock_get_tool.return_value = {"id": "file-compass"}
-    def test_remove_tool_from_workspace(self):
-        """Test remove command removes tool from mcp.yaml."""
         with runner.isolated_filesystem():
             runner.invoke(app, ["init"])
             runner.invoke(app, ["add", "file-compass"])
