@@ -1,6 +1,6 @@
 [project]
 name = "mcpt"
-version = "0.2.3"
+version = "1.0.0"
 description = "CLI for discovering and running MCP Tool Shop tools"
 readme = "README.md"
 license = "MIT"

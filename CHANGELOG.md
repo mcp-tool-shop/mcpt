@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.1] - 2026-02-15
+## [1.0.0] - 2026-02-15
+
+- **Official Release**: Synchronized with mcp-tool-registry v1.0.0.
+- **Contract**: Full support for Registry v1.x artifacts (search, bundles, curation).
+- **Hardened**: Production-grade isolation, deterministic installation, and hermetic testing.
+
+## [0.2.3] - 2026-02-15
 
 ### Added
 - **Featured & Collections**: New curation views in `mcpt list` and `mcpt search` via `--featured` and `--collection` flags.
