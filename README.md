@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="logo.jpg" alt="MCP Tool Registry" width="500" />
+</div>
+
 # MCPT CLI
 
 CLI for discovering and running MCP Tool Shop tools.
