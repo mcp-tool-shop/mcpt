@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-02-18
+
+### Added
+- HANDBOOK.md -- deep-dive guide covering architecture, workspace model, trust & safety, visual language, command reference, CI patterns, and FAQ
+
+### Changed
+- README.md -- rewritten with "At a Glance" section, ecosystem links, docs table, standardized badge row
+- npm/README.md -- rewritten for npm page with quick start and requirements
+
 ## [1.0.0] - 2026-02-15
 
 - **Official Release**: Synchronized with mcp-tool-registry v1.0.0.
